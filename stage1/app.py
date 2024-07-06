@@ -26,7 +26,8 @@ def access_token():
 class User(Resource):
     def get(self):
         name = request.args.get("visitor_name")
-        ip = "105.113.40.64"
+        # ip = "105.113.40.64"
+        ip = request.remote_addr
         token = access_token()
         handler = ipinfo.getHandler(token)
         user_schema = User_Schema() 
