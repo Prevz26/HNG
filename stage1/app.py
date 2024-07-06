@@ -25,11 +25,13 @@ def access_token():
 # routes
 class User(Resource):
     def get(self):
-        name = request.args.get("name")
+        name = request.args.get("visitor_name")
+        ip = "105.113.40.64"
         token = access_token()
         handler = ipinfo.getHandler(token)
         user_schema = User_Schema() 
-        details = handler.getDetails()
+        details = handler.getDetails(ip_address=ip)
+        # print(details)
         ip_details = user_schema.dump(details)
 
         url = f" http://api.weatherapi.com/v1/current.json"
@@ -46,7 +48,7 @@ class User(Resource):
         res = {
             "client_ip": ip_details.get("ip"),
             "location": ip_details.get("city"),
-            # "greeting":f"hello, {name}! your temperature is {response} degrees celsius in {ip_details.get('city')}",
+            "greeting":f"hello, {name}! your temperature is {response} degrees celsius in {ip_details.get('city')}",
         }
         return jsonify(res)
 
